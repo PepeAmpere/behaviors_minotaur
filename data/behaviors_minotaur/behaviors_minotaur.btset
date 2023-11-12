@@ -1,0 +1,14 @@
+{
+  "name": "behaviors_minotaur",
+  "trees": [
+    "Minotaur\\Advance.bt",
+    "Minotaur\\Patrol.bt"
+  ],
+  "initScripts": [
+    "Minotaur\\Minotaur.class.lua",
+    "init.lua"
+  ],
+  "parameters": {},
+  "capabilities": {},
+  "dynamicTargets": []
+}

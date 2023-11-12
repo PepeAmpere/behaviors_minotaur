@@ -1,0 +1,141 @@
+{
+  "name": "move and look around",
+  "id": "4bef2c10-a9a8-4c5b-a8b4-f321bb9de474",
+  "type": "supervisedParallel",
+  "subtrees": [
+    {
+      "name": "move to next position",
+      "id": "93f4517b-8ed1-4a9a-aa2b-283bae1fb528",
+      "type": "sequence",
+      "subtrees": [
+        {
+          "name": "relevant position",
+          "id": "e20f87ef-f0b5-4cd1-a3b7-9984c2fc8982",
+          "type": "waitUntil",
+          "condition": [
+            "return loc.selectedPosition ~= nil"
+          ]
+        },
+        {
+          "name": "Standing",
+          "id": "8d350cd8-0ebc-481a-bd5d-af8d93b98f87",
+          "type": "setStance",
+          "stance": [
+            "return Stance.Standing"
+          ]
+        },
+        {
+          "name": "Set speed",
+          "id": "7523f810-1f00-4bc6-80e5-fb2a0e46559f",
+          "type": "setEntitySpeedLimits",
+          "movementSpeed": [
+            "return 3.5"
+          ]
+        },
+        {
+          "name": "Move",
+          "id": "0b2f59e3-9ce4-4fe3-888c-bf4b68d4ef07",
+          "type": "move",
+          "position": [
+            "return loc.selectedPosition"
+          ]
+        }
+      ],
+      "decorators": [
+        {
+          "id": "21376a46-2b13-4fc6-a8bc-7db11f11a985",
+          "type": "loopForever",
+          "name": "forever"
+        }
+      ]
+    },
+    {
+      "name": "look around",
+      "id": "deed4ed5-956c-45d4-bd37-b56c90db9655",
+      "type": "sequence",
+      "subtrees": [
+        {
+          "name": "look for positions",
+          "id": "7f1ae27b-b2a9-4107-8e05-1d9196529db4",
+          "type": "scriptAction",
+          "script": [
+            "local entities = GetEntitiesInArea(",
+            "    Circle(self:GetPosition(), 200) -- area to search in",
+            ")",
+            "",
+            "local filteredList = {}",
+            "for i=1, #entities do",
+            "    local entity = entities[i]",
+            "    if string.match(entity:GetClassName(), \"waste\") then",
+            "        filteredList[#filteredList + 1] = entity",
+            "    end",
+            "end",
+            "",
+            "loc.selectedPosition = filteredList[math.random(#filteredList)]:GetPosition()"
+          ]
+        },
+        {
+          "name": "3",
+          "id": "7bfcf265-63f0-48cb-90a5-c5ea22f38e1a",
+          "type": "wait",
+          "time": [
+            "return 3"
+          ]
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "nodesInfo": [
+      {
+        "id": "4bef2c10-a9a8-4c5b-a8b4-f321bb9de474",
+        "position": "1587.5,197.5"
+      },
+      {
+        "id": "93f4517b-8ed1-4a9a-aa2b-283bae1fb528",
+        "position": "1587.5,360"
+      },
+      {
+        "id": "e20f87ef-f0b5-4cd1-a3b7-9984c2fc8982",
+        "position": "1287.5,535"
+      },
+      {
+        "id": "8d350cd8-0ebc-481a-bd5d-af8d93b98f87",
+        "position": "1475,535"
+      },
+      {
+        "id": "7523f810-1f00-4bc6-80e5-fb2a0e46559f",
+        "position": "1675,535"
+      },
+      {
+        "id": "0b2f59e3-9ce4-4fe3-888c-bf4b68d4ef07",
+        "position": "1850,535"
+      },
+      {
+        "id": "deed4ed5-956c-45d4-bd37-b56c90db9655",
+        "position": "2200,347.5"
+      },
+      {
+        "id": "7f1ae27b-b2a9-4107-8e05-1d9196529db4",
+        "position": "2100,447.5"
+      },
+      {
+        "id": "7bfcf265-63f0-48cb-90a5-c5ea22f38e1a",
+        "position": "2300,447.5"
+      }
+    ],
+    "editorObjects": [],
+    "canvasSize": "3840,2410",
+    "gridPadding": "0,10"
+  },
+  "parameters": [
+    {
+      "name": "orderData",
+      "isOptional": false
+    }
+  ],
+  "locals": {
+    "selectedPosition": "return nil",
+    "allPositions": "return nil"
+  }
+}

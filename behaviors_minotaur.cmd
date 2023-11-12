@@ -1,0 +1,2 @@
+P:\tools\blue\AddonPacker_64\AddonPacker_x64.exe -s -ap -ac -p MINOTAUR -r -rt -odi -o o:\VBS4-pre-release\data\BlueBase\content\core\addons\plugins\ -i P:\vbs2\customer\plugins\behaviors_minotaur\
+pause
