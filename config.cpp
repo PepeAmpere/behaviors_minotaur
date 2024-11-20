@@ -12,6 +12,8 @@ class CfgPatches
 		requiredAddons[] = {
 			vbs2_editor, 
 			vbs2_people,
+			vbs2_plugins_function_library,
+			vbs2_vbs_plugins_standard_behaviors,
 			vbs2_vbs_plugins_ai_core_public
 		};
 		modules[] =

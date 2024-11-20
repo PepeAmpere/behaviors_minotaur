@@ -1,14 +1,18 @@
 {
   "name": "behaviors_minotaur",
   "trees": [
+    "Ariadne\\Observe.bt",
     "Minotaur\\Advance.bt",
-    "Minotaur\\Patrol.bt"
+    "Minotaur\\Patrol.bt",
+    "Phaedra\\Follow.bt",
+    "Phaedra\\Listen.bt"
   ],
   "initScripts": [
+    "Ariadne\\Ariadne.class.lua",
     "Minotaur\\Minotaur.class.lua",
-    "init.lua"
+    "Phaedra\\Phaedra.class.lua",
+    "classes.lua"
   ],
   "parameters": {},
-  "capabilities": {},
-  "dynamicTargets": []
+  "capabilities": {}
 }

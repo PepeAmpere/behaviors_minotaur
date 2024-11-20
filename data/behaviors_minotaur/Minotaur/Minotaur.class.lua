@@ -1,37 +1,55 @@
 return {
     Minotaur = {
-
-        description = "Minotaur",
-        simpleClass = true,
+        description = 'An extension to Infantryman. Ancient Greek hero.',
         parents = {
-            "Base"
+            { btset = 'standard_behaviors', class = 'Infantryman' },
+            -- More parent classes can be added. The 'btset' field is optional and defaults to the current project.
         },
-
-        Match = function()
-            if 
+        
+        Match = function ()
+        -- This class matches the same objects as the parent class does.
+        -- You can add a condition matching only subset of soldiers.
+            if
                 type(self) == "EntityBrain"
             then
                 local soldier = self
-                if 
-                    soldier:Valid() and 
-                    soldier:IsAlive() and
-                    soldier:GetType() == EntityType.Person and
-                    (
-                        string.match(soldier:GetClassName(), "ru_army")
-                    )
-                then
-                    return true
-                end
-            end
+                    if 
+                        soldier:Valid() and 
+                        soldier:IsAlive() and
+                        soldier:GetType() == EntityType.Person and
+                        (
+                            -- string.match(soldier:GetClassName(), "ru_army")
+                            bb.name == "Minotaur"
+                        )
+                    then
+                        return true
+                    end
+            end        
             return false
         end,
 
         behaviors = {
-
-            Advance = {tree = 'Advance'},
-            Patrol = {tree = 'Patrol'},
-            Idle = {tree = 'Patrol'},
-
+            Advance = {
+                description = 'Advance',
+                tree = 'Advance',
+                parameters = {
+                    destination = {
+                        description = "Target position.",
+                        validate = standard_behaviors.IsOfTypeFn("Vec3"),
+                        mandatory = true,
+                    },
+                }, -- here is supposed to be 
+            },
+            Idle = {
+                description = 'Idle',
+                tree = 'Patrol',
+                parameters = {},
+            },
+            Patrol = {
+                description = 'Patrol',
+                tree = 'Patrol',
+                parameters = {},
+            }
         },
     },
 }

@@ -1,0 +1,300 @@
+{
+  "name": "observation sequence",
+  "id": "92554b7c-18c6-4171-aa08-661b64d2a8fc",
+  "type": "sequence",
+  "subtrees": [
+    {
+      "name": "Daedalus sees Minotaur",
+      "id": "41240b3f-7624-48cb-81f2-9ec2affa7d71",
+      "type": "parallel",
+      "subtrees": [
+        {
+          "name": "Debug Minotaur => Daedalus",
+          "id": "cd67f9bb-43b4-48c7-b93f-69e76f010204",
+          "type": "scriptAction",
+          "decorators": [
+            {
+              "id": "8fcfb429-d24d-4788-9529-21b7088bdbb1",
+              "type": "loopForever",
+              "name": "Draw line"
+            }
+          ],
+          "script": [
+            "if",
+            "    bb.Minotaur ~= nil and",
+            "    bb.Daedalus ~= nil",
+            "then",
+            "    local OFFSET = Vec3(0,0,2)",
+            "    ai_core_public.draw.Line(",
+            "        bb.Minotaur:GetPosition() + OFFSET,",
+            "        bb.Daedalus:GetPosition(),",
+            "        1, 0, 0, 1",
+            "    )",
+            "end"
+          ]
+        },
+        {
+          "name": "send and wait",
+          "id": "4007b7fb-c100-4455-9777-a4e9ff4146b8",
+          "type": "sequence",
+          "subtrees": [
+            {
+              "name": "3s",
+              "id": "ffcdd56f-354d-459e-bd5a-038b12d13a54",
+              "type": "wait",
+              "time": [
+                "return 3"
+              ]
+            },
+            {
+              "name": "Save position for later msg",
+              "id": "4a5aa807-10fb-4993-bfba-9000dc87b57d",
+              "type": "scriptAction",
+              "script": [
+                "if bb.Minotaur then",
+                "    loc.lastKnownPosition = bb.Minotaur:GetPosition()",
+                "end"
+              ]
+            }
+          ]
+        }
+      ],
+      "waitForAll": false
+    },
+    {
+      "name": "Daedalus telling Ariadne",
+      "id": "21b98d0c-7a4d-4bbb-ae11-6155864147c8",
+      "type": "parallel",
+      "subtrees": [
+        {
+          "name": "Debug Daedalus => Ariadne",
+          "id": "dec177e9-e198-48ee-b924-321d023cd421",
+          "type": "scriptAction",
+          "decorators": [
+            {
+              "id": "510a2a45-f102-4211-a3d1-83d7b02fb2ec",
+              "type": "loopForever",
+              "name": "Draw line"
+            }
+          ],
+          "script": [
+            "if",
+            "    bb.Daedalus ~= nil",
+            "then",
+            "    local OFFSET = Vec3(0,0,2)",
+            "    ai_core_public.draw.Line(",
+            "        self:GetPosition() + OFFSET,",
+            "        bb.Daedalus:GetPosition(),",
+            "        0, 1, 0, 1",
+            "    )",
+            "end"
+          ]
+        },
+        {
+          "name": "6s",
+          "id": "435605b8-4ef0-4afa-978e-7c08456104f9",
+          "type": "wait",
+          "time": [
+            "return 6"
+          ]
+        }
+      ],
+      "waitForAll": false
+    },
+    {
+      "name": "Ariadne telling Theseus",
+      "id": "092753a8-3494-469b-836d-31646780e77f",
+      "type": "parallel",
+      "subtrees": [
+        {
+          "name": "Debug Ariadne => Theseus",
+          "id": "853e8c24-e1ca-4bb6-8c21-2a16a01c0194",
+          "type": "scriptAction",
+          "decorators": [
+            {
+              "id": "db2d7cb1-ea50-4fe3-990e-7f9992564b0e",
+              "type": "loopForever",
+              "name": "Draw line"
+            }
+          ],
+          "script": [
+            "if",
+            "    bb.Theseus ~= nil",
+            "then",
+            "    local OFFSET = Vec3(0,0,2)",
+            "    ai_core_public.draw.Line(",
+            "        self:GetPosition() + OFFSET,",
+            "        bb.Theseus:GetPosition() + OFFSET,",
+            "        0, 1, 0, 1",
+            "    )",
+            "end"
+          ]
+        },
+        {
+          "name": "Debug Ariadne => Phaedra",
+          "id": "5b9c96c5-7a75-4180-8d4e-37027c13d558",
+          "type": "scriptAction",
+          "decorators": [
+            {
+              "id": "82221e6a-992e-4714-b9ff-97b9d4ce25f9",
+              "type": "loopForever",
+              "name": "Draw line"
+            }
+          ],
+          "script": [
+            "if",
+            "    bb.Phaedra ~= nil",
+            "then",
+            "    local OFFSET = Vec3(0,0,2)",
+            "    ai_core_public.draw.Line(",
+            "        self:GetPosition() + OFFSET,",
+            "        bb.Phaedra:GetPosition() + OFFSET,",
+            "        0, 1, 0, 1",
+            "    )",
+            "end"
+          ]
+        },
+        {
+          "name": "send and wait",
+          "id": "aabca7c1-c9e0-48a6-9e1c-bf8483a482db",
+          "type": "sequence",
+          "subtrees": [
+            {
+              "name": "6s",
+              "id": "c9bd2974-e279-415c-9fed-d25c5296b164",
+              "type": "wait",
+              "time": [
+                "return 6"
+              ]
+            },
+            {
+              "name": "Send actual message",
+              "id": "8dcbe330-e02f-4d8d-98fd-f23e5504febe",
+              "type": "scriptAction",
+              "script": [
+                "if bb.Minotaur ~= nil then",
+                "    if bb.Theseus ~= nil then",
+                "        self:SendMessage(",
+                "            bb.Theseus,",
+                "            \"MinotaurPositionUpdate\",",
+                "            {",
+                "                position = loc.lastKnownPosition",
+                "            }",
+                "        )",
+                "    end",
+                "",
+                "    if bb.Phaedra ~= nil then",
+                "        self:SendMessage(",
+                "            bb.Phaedra,",
+                "            \"MinotaurPositionUpdate\",",
+                "            {",
+                "                position = loc.lastKnownPosition",
+                "            }",
+                "        )",
+                "    end",
+                "end"
+              ]
+            }
+          ]
+        }
+      ],
+      "waitForAll": false
+    },
+    {
+      "name": "6s",
+      "id": "7c7f04f2-8c6e-408f-a57d-819282a4842f",
+      "type": "wait",
+      "time": [
+        "return 6"
+      ]
+    }
+  ],
+  "decorators": [
+    {
+      "id": "2fd73094-4b82-4d9b-95e8-e284985915cd",
+      "type": "loopForever",
+      "name": "repeat"
+    }
+  ],
+  "meta": {
+    "nodesInfo": [
+      {
+        "id": "92554b7c-18c6-4171-aa08-661b64d2a8fc",
+        "position": "2312.5,115.5"
+      },
+      {
+        "id": "41240b3f-7624-48cb-81f2-9ec2affa7d71",
+        "position": "1562.5,378"
+      },
+      {
+        "id": "cd67f9bb-43b4-48c7-b93f-69e76f010204",
+        "position": "1212.5,478"
+      },
+      {
+        "id": "4007b7fb-c100-4455-9777-a4e9ff4146b8",
+        "position": "1575,465.5"
+      },
+      {
+        "id": "ffcdd56f-354d-459e-bd5a-038b12d13a54",
+        "position": "1462.5,528"
+      },
+      {
+        "id": "4a5aa807-10fb-4993-bfba-9000dc87b57d",
+        "position": "1637.5,528"
+      },
+      {
+        "id": "21b98d0c-7a4d-4bbb-ae11-6155864147c8",
+        "position": "2062.5,378"
+      },
+      {
+        "id": "dec177e9-e198-48ee-b924-321d023cd421",
+        "position": "1850,478"
+      },
+      {
+        "id": "435605b8-4ef0-4afa-978e-7c08456104f9",
+        "position": "2075.5,481"
+      },
+      {
+        "id": "092753a8-3494-469b-836d-31646780e77f",
+        "position": "2737.5,390.5"
+      },
+      {
+        "id": "853e8c24-e1ca-4bb6-8c21-2a16a01c0194",
+        "position": "2250,490.5"
+      },
+      {
+        "id": "5b9c96c5-7a75-4180-8d4e-37027c13d558",
+        "position": "2462.5,490.5"
+      },
+      {
+        "id": "aabca7c1-c9e0-48a6-9e1c-bf8483a482db",
+        "position": "2750,465.5"
+      },
+      {
+        "id": "c9bd2974-e279-415c-9fed-d25c5296b164",
+        "position": "2700,540.5"
+      },
+      {
+        "id": "8dcbe330-e02f-4d8d-98fd-f23e5504febe",
+        "position": "2862.5,540.5"
+      },
+      {
+        "id": "7c7f04f2-8c6e-408f-a57d-819282a4842f",
+        "position": "3087.5,403"
+      }
+    ],
+    "editorObjects": [],
+    "canvasSize": "3840,2553",
+    "gridPadding": "0,3"
+  },
+  "parameters": [
+    {
+      "name": "orderData",
+      "isOptional": false,
+      "evaluation": "passByReference"
+    }
+  ],
+  "locals": {
+    "lastKnownPosition": "return self:GetPosition()"
+  }
+}

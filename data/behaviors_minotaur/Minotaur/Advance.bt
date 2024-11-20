@@ -19,7 +19,8 @@
     {
       "name": "orderData",
       "isOptional": false,
-      "defaultValue": ""
+      "defaultValue": "",
+      "evaluation": "passByReference"
     }
   ],
   "locals": {}

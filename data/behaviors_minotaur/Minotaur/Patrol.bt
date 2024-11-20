@@ -4,48 +4,167 @@
   "type": "supervisedParallel",
   "subtrees": [
     {
-      "name": "move to next position",
-      "id": "93f4517b-8ed1-4a9a-aa2b-283bae1fb528",
-      "type": "sequence",
+      "name": "reaction",
+      "id": "be311c5c-0232-4985-b2af-1803c20813c0",
+      "type": "selector",
       "subtrees": [
         {
-          "name": "relevant position",
-          "id": "e20f87ef-f0b5-4cd1-a3b7-9984c2fc8982",
-          "type": "waitUntil",
-          "condition": [
-            "return loc.selectedPosition ~= nil"
+          "name": "fight",
+          "id": "89bc6e11-8538-44f3-9cc5-a83ae0006c4c",
+          "type": "sequence",
+          "subtrees": [
+            {
+              "name": "select target",
+              "id": "2b3effa5-a838-4b93-9a18-a135d8cbd5a3",
+              "type": "scriptAction",
+              "script": [
+                "loc.target = loc.visibleEnemies[math.random(#loc.visibleEnemies)]"
+              ]
+            },
+            {
+              "name": "Aim",
+              "id": "23135a28-edc2-4322-986d-40858e48d91e",
+              "type": "scriptAction",
+              "script": [
+                "self:ReqHeadingAimAtEntity(loc.target)"
+              ]
+            },
+            {
+              "name": "fire within limit",
+              "id": "fa79493d-1e2b-4abf-b6a0-0d2251c000b4",
+              "type": "parallel",
+              "subtrees": [
+                {
+                  "name": "Fire",
+                  "id": "9910c693-3425-4024-819d-3bb0287e5a49",
+                  "type": "fire",
+                  "rounds": [
+                    "return math.random(2,4)"
+                  ],
+                  "forced": false
+                },
+                {
+                  "name": "Fire",
+                  "id": "f769bd11-f7dc-417c-b82b-54746d7d413e",
+                  "type": "fire",
+                  "decorators": [
+                    {
+                      "id": "2011ca35-23ad-48eb-85b9-e46b1f95e982",
+                      "type": "wait",
+                      "name": "2",
+                      "time": [
+                        "return 1.4"
+                      ]
+                    }
+                  ],
+                  "rounds": [
+                    "return math.random(2,4)"
+                  ],
+                  "forced": true
+                }
+              ],
+              "waitForAll": false
+            },
+            {
+              "name": "Reload",
+              "id": "a7de66b2-a4a9-422f-8829-b5a1aba2d08d",
+              "type": "reloadWeapon"
+            }
+          ],
+          "decorators": [
+            {
+              "id": "084f6be8-521a-42f3-8243-fa8935071880",
+              "type": "scriptCondition",
+              "name": "reaction",
+              "script": [
+                "if #loc.visibleEnemies > 0 then",
+                "    return true",
+                "else",
+                "    loc.target = nil",
+                "    return false",
+                "end"
+              ]
+            }
           ]
         },
         {
-          "name": "Standing",
-          "id": "8d350cd8-0ebc-481a-bd5d-af8d93b98f87",
-          "type": "setStance",
-          "stance": [
-            "return Stance.Standing"
-          ]
-        },
-        {
-          "name": "Set speed",
-          "id": "7523f810-1f00-4bc6-80e5-fb2a0e46559f",
-          "type": "setEntitySpeedLimits",
-          "movementSpeed": [
-            "return 3.5"
-          ]
-        },
-        {
-          "name": "Move",
-          "id": "0b2f59e3-9ce4-4fe3-888c-bf4b68d4ef07",
-          "type": "move",
-          "position": [
-            "return loc.selectedPosition"
+          "name": "move to next position",
+          "id": "93f4517b-8ed1-4a9a-aa2b-283bae1fb528",
+          "type": "sequence",
+          "subtrees": [
+            {
+              "name": "relevant position",
+              "id": "e20f87ef-f0b5-4cd1-a3b7-9984c2fc8982",
+              "type": "waitUntil",
+              "condition": [
+                "return loc.selectedPosition ~= nil"
+              ]
+            },
+            {
+              "name": "Set heading",
+              "id": "724d07e3-63f7-46d0-9038-242308418c90",
+              "type": "scriptAction",
+              "script": [
+                "self:ReqHeadingRelToMove(0)"
+              ]
+            },
+            {
+              "name": "Standing",
+              "id": "8d350cd8-0ebc-481a-bd5d-af8d93b98f87",
+              "type": "setStance",
+              "stance": [
+                "return Stance.Standing"
+              ]
+            },
+            {
+              "name": "Set speed",
+              "id": "7523f810-1f00-4bc6-80e5-fb2a0e46559f",
+              "type": "setEntitySpeedLimits",
+              "movementSpeed": [
+                "return 3.5"
+              ]
+            },
+            {
+              "name": "Move",
+              "id": "0b2f59e3-9ce4-4fe3-888c-bf4b68d4ef07",
+              "type": "move",
+              "position": [
+                "return loc.selectedPosition"
+              ]
+            }
+          ],
+          "decorators": [
+            {
+              "id": "21376a46-2b13-4fc6-a8bc-7db11f11a985",
+              "type": "loopForever",
+              "name": "forever"
+            }
           ]
         }
       ],
-      "decorators": [
+      "active": true
+    },
+    {
+      "name": "look around",
+      "id": "42667874-4a33-4001-9907-5d485e37dd0a",
+      "type": "sequence",
+      "subtrees": [
         {
-          "id": "21376a46-2b13-4fc6-a8bc-7db11f11a985",
-          "type": "loopForever",
-          "name": "forever"
+          "name": "look for targets",
+          "id": "5de4c614-22a9-4aed-a727-880862db2207",
+          "type": "scriptAction",
+          "script": [
+            "-- infantryman soldier override reaction",
+            "loc.visibleEnemies = self:GetVisibleEnemies(50)"
+          ]
+        },
+        {
+          "name": "2",
+          "id": "09329830-cedc-4b2d-877c-74e0e3f5f6f3",
+          "type": "wait",
+          "time": [
+            "return 2"
+          ]
         }
       ]
     },
@@ -85,57 +204,116 @@
       ]
     }
   ],
+  "decorators": [
+    {
+      "id": "5b536ea5-d285-4e08-a4cb-0451ae083dd8",
+      "type": "loopForever",
+      "name": "forever"
+    }
+  ],
   "meta": {
     "nodesInfo": [
       {
         "id": "4bef2c10-a9a8-4c5b-a8b4-f321bb9de474",
-        "position": "1587.5,197.5"
+        "position": "1587.5,127.1"
+      },
+      {
+        "id": "be311c5c-0232-4985-b2af-1803c20813c0",
+        "position": "1600,314.6"
+      },
+      {
+        "id": "89bc6e11-8538-44f3-9cc5-a83ae0006c4c",
+        "position": "1050,414.6"
+      },
+      {
+        "id": "2b3effa5-a838-4b93-9a18-a135d8cbd5a3",
+        "position": "725,552.1"
+      },
+      {
+        "id": "23135a28-edc2-4322-986d-40858e48d91e",
+        "position": "887.5,552.1"
+      },
+      {
+        "id": "fa79493d-1e2b-4abf-b6a0-0d2251c000b4",
+        "position": "1050,552.1"
+      },
+      {
+        "id": "9910c693-3425-4024-819d-3bb0287e5a49",
+        "position": "950,689.6"
+      },
+      {
+        "id": "f769bd11-f7dc-417c-b82b-54746d7d413e",
+        "position": "1112.5,664.6"
+      },
+      {
+        "id": "a7de66b2-a4a9-422f-8829-b5a1aba2d08d",
+        "position": "1225,552.1"
       },
       {
         "id": "93f4517b-8ed1-4a9a-aa2b-283bae1fb528",
-        "position": "1587.5,360"
+        "position": "1587.5,489.6"
       },
       {
         "id": "e20f87ef-f0b5-4cd1-a3b7-9984c2fc8982",
-        "position": "1287.5,535"
+        "position": "1287.5,664.6"
+      },
+      {
+        "id": "724d07e3-63f7-46d0-9038-242308418c90",
+        "position": "1462.5,677.1"
       },
       {
         "id": "8d350cd8-0ebc-481a-bd5d-af8d93b98f87",
-        "position": "1475,535"
+        "position": "1637.5,677.1"
       },
       {
         "id": "7523f810-1f00-4bc6-80e5-fb2a0e46559f",
-        "position": "1675,535"
+        "position": "1800,677.1"
       },
       {
         "id": "0b2f59e3-9ce4-4fe3-888c-bf4b68d4ef07",
-        "position": "1850,535"
+        "position": "1975,677.1"
+      },
+      {
+        "id": "42667874-4a33-4001-9907-5d485e37dd0a",
+        "position": "1937.5,389.6"
+      },
+      {
+        "id": "5de4c614-22a9-4aed-a727-880862db2207",
+        "position": "1862.5,489.6"
+      },
+      {
+        "id": "09329830-cedc-4b2d-877c-74e0e3f5f6f3",
+        "position": "2025,489.6"
       },
       {
         "id": "deed4ed5-956c-45d4-bd37-b56c90db9655",
-        "position": "2200,347.5"
+        "position": "2225,389.6"
       },
       {
         "id": "7f1ae27b-b2a9-4107-8e05-1d9196529db4",
-        "position": "2100,447.5"
+        "position": "2212.5,489.6"
       },
       {
         "id": "7bfcf265-63f0-48cb-90a5-c5ea22f38e1a",
-        "position": "2300,447.5"
+        "position": "2400,489.6"
       }
     ],
     "editorObjects": [],
-    "canvasSize": "3840,2410",
-    "gridPadding": "0,10"
+    "canvasSize": "3840,2539.6",
+    "gridPadding": "0,2.09999999999997"
   },
   "parameters": [
     {
       "name": "orderData",
-      "isOptional": false
+      "isOptional": false,
+      "defaultValue": "",
+      "evaluation": "passByReference"
     }
   ],
   "locals": {
     "selectedPosition": "return nil",
-    "allPositions": "return nil"
+    "allPositions": "return nil",
+    "visibleEnemies": "return {}",
+    "target": "return nil"
   }
 }

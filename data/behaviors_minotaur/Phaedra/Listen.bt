@@ -1,0 +1,115 @@
+{
+  "name": "wait and listen",
+  "id": "4295675d-5241-44a0-9e59-01042d48c099",
+  "type": "supervisedParallel",
+  "subtrees": [
+    {
+      "name": "Wait Forever",
+      "id": "a23f1fcc-bee2-49b4-b567-17c9a0b3defd",
+      "type": "waitForever"
+    },
+    {
+      "name": "wait for msg and draw",
+      "id": "70f60b79-ac56-4c3e-99da-4382528ff81a",
+      "type": "sequence",
+      "subtrees": [
+        {
+          "name": "MinotaurPositionUpdate",
+          "id": "b7c97f90-7866-4203-ab57-9513f6b05fbc",
+          "type": "messageHandler",
+          "subject": "MinotaurPositionUpdate",
+          "handler": [
+            "if msg.value.position then",
+            "\tloc.lastKnownMinotaurPosition = msg.value.position",
+            "end"
+          ]
+        },
+        {
+          "name": "draw a line",
+          "id": "fb758931-d56a-4736-9777-0747aaf8ba11",
+          "type": "parallel",
+          "subtrees": [
+            {
+              "name": "Debug Phaedra => lastKnownMinotaurPosition",
+              "id": "97a344f0-c455-4324-a8f1-850af9fb4c96",
+              "type": "scriptAction",
+              "decorators": [
+                {
+                  "id": "fb8c3d51-636b-43c2-a018-44df8a4d8c67",
+                  "type": "loopForever",
+                  "name": "Draw line"
+                }
+              ],
+              "script": [
+                "if",
+                "    loc.lastKnownMinotaurPosition ~= nil",
+                "then",
+                "    local OFFSET = Vec3(0,0,2)",
+                "    ai_core_public.draw.Line(",
+                "        self:GetPosition() + OFFSET,",
+                "        loc.lastKnownMinotaurPosition + OFFSET,",
+                "        0, 0, 1, 1",
+                "    )",
+                "end"
+              ]
+            },
+            {
+              "name": "2s",
+              "id": "afa13f12-8277-45d1-ab48-70342c9e5ca2",
+              "type": "wait",
+              "time": [
+                "return 2"
+              ]
+            }
+          ],
+          "waitForAll": false
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "nodesInfo": [
+      {
+        "id": "4295675d-5241-44a0-9e59-01042d48c099",
+        "position": "1975,162.5"
+      },
+      {
+        "id": "a23f1fcc-bee2-49b4-b567-17c9a0b3defd",
+        "position": "1754,345"
+      },
+      {
+        "id": "70f60b79-ac56-4c3e-99da-4382528ff81a",
+        "position": "2112.5,262.5"
+      },
+      {
+        "id": "b7c97f90-7866-4203-ab57-9513f6b05fbc",
+        "position": "2012.5,337.5"
+      },
+      {
+        "id": "fb758931-d56a-4736-9777-0747aaf8ba11",
+        "position": "2337.5,337.5"
+      },
+      {
+        "id": "97a344f0-c455-4324-a8f1-850af9fb4c96",
+        "position": "2137.5,412.5"
+      },
+      {
+        "id": "afa13f12-8277-45d1-ab48-70342c9e5ca2",
+        "position": "2512.5,412.5"
+      }
+    ],
+    "editorObjects": [],
+    "canvasSize": "3840,2400"
+  },
+  "parameters": [
+    {
+      "name": "orderData",
+      "isOptional": false,
+      "defaultValue": "",
+      "evaluation": "passByReference"
+    }
+  ],
+  "locals": {
+    "lastKnownMinotaurPosition": "return nil"
+  }
+}
